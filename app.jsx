@@ -1,90 +1,98 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+
 const PLAYERS = [
   { name: "Andrew Olson", score: 42 },
   { name: "Jim Hoskins", score: 33 }
 ]
 
-var AddPlayerForm = React.createClass({
-  propTypes: {
-    onAddPlayer: React.PropTypes.func.isRequired
-  },
-
-  getInitialState: function() {
-    return {
+class AddPlayerForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       name: ""
     };
-  },
+  }
 
-  onNameChange: function(event) {
+  onNameChange(event) {
     this.setState({name: event.target.value});
-  },
+  }
 
-  onSubmit: function(event) {
+  onSubmit(event) {
     event.preventDefault();
 
     if(this.state.name) {
       this.props.onAddPlayer(this.state.name);
       this.setState({name: ""});
     }
-  },
+  }
 
-  render: function() {
+  render() {
     return (
       <div className="add-player-form">
-        <form onSubmit={this.onSubmit}>
-          <input type="text" value={this.state.name} onChange={this.onNameChange} placeholder="name" />
+        <form onSubmit={(event) => this.onSubmit(event)}>
+          <input type="text" value={this.state.name} onChange={(event) => this.onNameChange(event)} placeholder="name" />
           <input type="submit" value="Add Player" />
         </form>
       </div>
     );
   }
-});
+}
 
-var Stopwatch = React.createClass({
-  getInitialState: function() {
-    return {
+AddPlayerForm.propTypes = {
+  onAddPlayer: PropTypes.func.isRequired
+};
+
+class Stopwatch extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
       running: false,
       elapsedTime: 0,
       startTime: 0
     };
-  },
+  }
 
-  componentDidMount: function() {
-    this.interval = setInterval(this.onTick, 100);
-  },
+  componentDidMount() {
+    this.interval = setInterval(() => this.onTick(), 100);
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     clearInterval(this.interval);
-  },
+  }
 
-  onStart: function() {
+  onStart() {
     this.setState({
       running: true,
       startTime: Date.now()
     });
-  },
+  }
 
-  onStop: function() {
+  onStop() {
     this.setState({ running: false });
-  },
+  }
 
-  onReset: function() {
+  onReset() {
     this.setState({
-      elapsedTime: 0
+      elapsedTime: 0,
+      startTime: Date.now()
     });
-  },
+  }
 
-  onTick: function() {
+  onTick() {
     if(this.state.running) {
       var now = Date.now();
       this.setState({
         elapsedTime: now - this.state.startTime
       });
     }
-  },
+  }
 
-  render: function() {
-    var stopButton = <button onClick={this.onStop}>Stop</button>
-    var startButton = <button onClick={this.onStart}>Start</button>
+  render() {
+    var stopButton = <button onClick={() => this.onStop()}>Stop</button>
+    var startButton = <button onClick={() => this.onStart()}>Start</button>
     var seconds = Math.floor(this.state.elapsedTime / 1000);
 
     return(
@@ -92,11 +100,11 @@ var Stopwatch = React.createClass({
         <h2>Stopwatch</h2>
         <div className="stopwatch-time">{seconds}</div>
         {this.state.running ?  stopButton : startButton }
-        <button onClick={this.onReset}>Reset</button>
+        <button onClick={() => this.onReset()}>Reset</button>
       </div>
     );
   }
-});
+}
 
 function Stats(props) {
   var totalPlayers = props.players.length;
@@ -119,7 +127,7 @@ function Stats(props) {
 }
 
 Stats.propTypes = {
-  players: React.PropTypes.array.isRequired
+  players: PropTypes.array.isRequired
 };
 
 function Header(props) {
@@ -133,8 +141,8 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  players: React.PropTypes.array.isRequired
+  title: PropTypes.string.isRequired,
+  players: PropTypes.array.isRequired
 };
 
 function Player(props) {
@@ -152,10 +160,10 @@ function Player(props) {
 };
 
 Player.propTypes = {
-  name: React.PropTypes.string.isRequired,
-  score: React.PropTypes.number.isRequired,
-  onScoreChange: React.PropTypes.func.isRequired,
-  onRemove: React.PropTypes.func.isRequired
+  name: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+  onScoreChange: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired
 }
 
 
@@ -170,24 +178,12 @@ function Counter(props) {
 }
 
 Counter.propTypes = {
-  score: React.PropTypes.number.isRequired,
-  onChange: React.PropTypes.func.isRequired
+  score: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired
 }
 
-var PlayerList = React.createClass({
-
-  propTypes: {
-    onScoreChange: React.PropTypes.func.isRequired,
-    onRemovePlayer: React.PropTypes.func.isRequired,
-    players: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        score: React.PropTypes.number.isRequired
-      })
-    ).isRequired
-  },
-
-  render: function () {
+class PlayerList extends React.Component {
+  render() {
     var emptyState = <p className="no-players">There aren't any players. Get started by adding one.</p>;
     var totalPlayers = this.props.players.length;
 
@@ -196,17 +192,17 @@ var PlayerList = React.createClass({
         { totalPlayers > 0 ? this.renderPlayers() : emptyState }
       </div>
     );
-  },
+  }
 
-  renderPlayers: function() {
+  renderPlayers() {
     return (
       this.props.players.map(function(player, index) {
         return this.renderPlayer(player, index);
       }.bind(this))
     );
-  },
+  }
 
-  renderPlayer: function(player, index) {
+  renderPlayer(player, index) {
     return (
       <Player
         onScoreChange={ function(delta) { this.props.onScoreChange(index, delta) }.bind(this) }
@@ -216,47 +212,43 @@ var PlayerList = React.createClass({
         key={index} />
     );
   }
-});
+}
 
-var Application = React.createClass({
-  propTypes: {
-    title: React.PropTypes.string,
-    initialPlayers: React.PropTypes.arrayOf(
-      React.PropTypes.shape({
-        name: React.PropTypes.string.isRequired,
-        score: React.PropTypes.number.isRequired
-      })
-    ).isRequired
-  },
+PlayerList.propTypes = {
+  onScoreChange: PropTypes.func.isRequired,
+  onRemovePlayer: PropTypes.func.isRequired,
+  players: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      score: PropTypes.number.isRequired
+    })
+  ).isRequired
+};
 
-  getDefaultProps: function() {
-    return {
-      title: "Scoreboard"
-    };
-  },
-
-  getInitialState: function() {
-    return {
+class Application extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       players: this.props.initialPlayers
     };
-  },
+  }
 
-  onScoreChange: function(index, delta) {
+  onScoreChange(index, delta) {
     this.state.players[index].score += delta
     this.setState(this.state)
-  },
+  }
 
-  onAddPlayer: function(name) {
+  onAddPlayer(name) {
     this.state.players.push({name: name, score: 0})
     this.setState(this.state)
-  },
+  }
 
-  onRemovePlayer: function(index) {
+  onRemovePlayer(index) {
     this.state.players.splice(index, 1);
     this.setState(this.state)
-  },
+  }
 
-  render: function() {
+  render() {
     var players = this.state.players;
 
     return (
@@ -264,17 +256,27 @@ var Application = React.createClass({
         <Header title={ this.props.title } players={ players } />
         <PlayerList
           players={ players }
-          onScoreChange={ this.onScoreChange }
-          onRemovePlayer={ this.onRemovePlayer } />
-        <AddPlayerForm onAddPlayer={ this.onAddPlayer } />
+          onScoreChange={ (index, delta) => this.onScoreChange(index, delta) }
+          onRemovePlayer={ (index) => this.onRemovePlayer(index) } />
+        <AddPlayerForm onAddPlayer={ (name) => this.onAddPlayer(name) } />
       </div>
     );
   }
-});
+}
+
+Application.propTypes = {
+  title: PropTypes.string,
+  initialPlayers: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      score: PropTypes.number.isRequired
+    })
+  ).isRequired
+};
+
+Application.defaultProps = {
+  title: "Scoreboard"
+};
+
 
 ReactDOM.render(<Application initialPlayers={PLAYERS} />, document.getElementById('container'))
-
-
-
-
-
