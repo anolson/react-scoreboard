@@ -1,6 +1,12 @@
+### Setup
+
+```
+yarn install
+```
+
 ### Running the server
 ```
-ruby -run -e httpd -p 5000
+yarn start
 ```
 
 ### Notes
