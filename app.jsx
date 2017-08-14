@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+import './css/app.css'
+
 const PLAYERS = [
   { name: "Andrew Olson", score: 42 },
   { name: "Jim Hoskins", score: 33 }
