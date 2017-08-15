@@ -1,5 +1,7 @@
+const path = require('path');
+
 module.exports = {
-  entry: './app.jsx',
+  entry: './src/index.jsx',
   output: {
     publicPath: "/build",
     path: __dirname + "/build",
@@ -8,7 +10,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.jsx$/,
+        test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: ['react-hot-loader', 'babel-loader']
       },
@@ -20,5 +22,9 @@ module.exports = {
   },
   devServer: {
     publicPath: "/build"
+  },
+  resolve: {
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
+    extensions: ['.js', '.jsx']
   }
 };
