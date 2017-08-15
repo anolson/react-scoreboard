@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from "app";
 
-import '../css/app.css'
+import './index.css'
 
 const PLAYERS = [
   { name: "Andrew Olson", score: 42 },
