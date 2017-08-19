@@ -1,9 +1,21 @@
+# React Scoreboard
+
+An implementation of the scoreboard project from the Treehouse [Learn React](https://teamtreehouse.com/tracks/learn-react) track.
+
+### Setup
+
+```
+yarn install
+```
+
 ### Running the server
 ```
-ruby -run -e httpd -p 5000
+yarn start
 ```
+
+Now visit: http://localhost:8080/webpack-dev-server/
 
 ### Notes
 
-Default Prop Values
-https://facebook.github.io/react/docs/reusable-components.html#default-prop-values
+* [Default Prop Values](https://facebook.github.io/react/docs/reusable-components.html#default-prop-values)
+
