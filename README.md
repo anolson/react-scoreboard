@@ -13,7 +13,7 @@ yarn install
 yarn start
 ```
 
-Now visit: http://localhost:8080/webpack-dev-server/
+Now visit: http://localhost:8080/
 
 ### Notes
 
