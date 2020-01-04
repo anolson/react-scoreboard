@@ -8,15 +8,15 @@ module.exports = {
     filename: 'app.bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['react-hot-loader', 'babel-loader']
+        use: ['babel-loader']
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
