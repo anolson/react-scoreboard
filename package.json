@@ -8,15 +8,16 @@
     "start": "webpack-dev-server --progress --inline --hot --open"
   },
   "dependencies": {
+    "minimist": "^1.2.3",
     "prop-types": "^15.5.9",
     "react": "^15.5.4",
     "react-dom": "^15.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
-    "babel-loader": "^8.0.6",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.4.0",
     "react-hot-loader": "^4.12.18",
     "style-loader": "^0.18.2",
