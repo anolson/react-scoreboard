@@ -8,6 +8,7 @@
     "start": "webpack-dev-server --progress --inline --hot --open"
   },
   "dependencies": {
+    "kind-of": "^6.0.3",
     "minimist": "^1.2.3",
     "prop-types": "^15.5.9",
     "react": "^15.5.4",
