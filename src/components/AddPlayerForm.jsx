@@ -1,37 +1,30 @@
-import React from "react";
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-class AddPlayerForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: ""
-    };
+function AddPlayerForm(props) {
+  const [name, setName] = useState("");
+
+  const onNameChange = (event) => {
+    setName(event.target.value);
   }
 
-  onNameChange(event) {
-    this.setState({name: event.target.value});
-  }
-
-  onSubmit(event) {
+  const onSubmit = (event) => {
     event.preventDefault();
 
-    if(this.state.name) {
-      this.props.onAddPlayer(this.state.name);
-      this.setState({name: ""});
+    if(name) {
+      props.onAddPlayer(name);
+      setName("");
     }
-  }
+  };
 
-  render() {
-    return (
-      <div className="add-player-form">
-        <form onSubmit={(event) => this.onSubmit(event)}>
-          <input type="text" value={this.state.name} onChange={(event) => this.onNameChange(event)} placeholder="name" />
-          <input type="submit" value="Add Player" />
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div className="add-player-form">
+      <form onSubmit={(event) => onSubmit(event)}>
+        <input type="text" value={name} onChange={(event) => onNameChange(event)} placeholder="name" />
+        <input type="submit" value="Add Player" />
+      </form>
+    </div>
+  );
 }
 
 AddPlayerForm.propTypes = {
