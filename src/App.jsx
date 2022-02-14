@@ -1,44 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import AddPlayerForm from "components/AddPlayerForm";
+import AddPlayerForm from "containers/AddPlayerFormContainer";
 import Header from "components/Header";
-import PlayerList from "components/PlayerList";
+import PlayerList from "containers/PlayerListContainer";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      players: this.props.initialPlayers
-    };
-  }
-
-  onScoreChange(index, delta) {
-    this.state.players[index].score += delta
-    this.setState(this.state)
-  }
-
-  onAddPlayer(name) {
-    this.state.players.push({name: name, score: 0})
-    this.setState(this.state)
-  }
-
-  onRemovePlayer(index) {
-    this.state.players.splice(index, 1);
-    this.setState(this.state)
-  }
-
   render() {
-    var players = this.state.players;
-
     return (
       <div className="scoreboard">
-        <Header title={ this.props.title } players={ players } />
-        <PlayerList
-          players={ players }
-          onScoreChange={ (index, delta) => this.onScoreChange(index, delta) }
-          onRemovePlayer={ (index) => this.onRemovePlayer(index) } />
-        <AddPlayerForm onAddPlayer={ (name) => this.onAddPlayer(name) } />
+        <Header title={ this.props.title } players={ this.props.players } />
+        <PlayerList players={ this.props.players } />
+        <AddPlayerForm />
       </div>
     );
   }
@@ -46,7 +20,7 @@ class App extends React.Component {
 
 App.propTypes = {
   title: PropTypes.string,
-  initialPlayers: PropTypes.arrayOf(
+  players: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       score: PropTypes.number.isRequired
@@ -55,7 +29,15 @@ App.propTypes = {
 };
 
 App.defaultProps = {
-  title: "Scoreboard"
+  title: "Scoreboard",
+  players: [],
 };
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    players: state.players
+  };
+};
+
+export default connect(mapStateToProps, null)(App)
+

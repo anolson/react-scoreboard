@@ -1,12 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from "app";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import playersReducer from "./app/store";
 
+import App from "app";
 import './index.css'
 
-const PLAYERS = [
-  { name: "Andrew Olson", score: 42 },
-  { name: "Jim Hoskins", score: 33 }
-]
+const store = createStore(playersReducer);
 
-ReactDOM.render(<App initialPlayers={PLAYERS} />, document.getElementById('container'))
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('container')
+);
