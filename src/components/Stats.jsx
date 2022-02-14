@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function Stats(props) {
   var totalPlayers = props.players.length;
-  var totalPoints = props.players.reduce(function(total, player) { return total + player.score; }, 0)
+  var totalPoints = props.players.reduce((total, player) => { return total + player.score; }, 0)
 
   return (
     <table className="stats">
