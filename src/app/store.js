@@ -7,6 +7,27 @@ const initialState = {
   ],
 };
 
+export const addPlayer = (name) => {
+  return {
+    type: "ADD_PLAYER",
+    payload: {name: name, score: 0}
+  }
+}
+
+export const removePlayer = (index) => {
+  return {
+    type: "REMOVE_PLAYER",
+    payload: index
+  }
+}
+
+export const updateScore = (index, delta) => {
+  return {
+    type: "UPDATE_SCORE",
+    payload: {index: index, delta: delta}
+  }
+}
+
 const playersReducer = (state = initialState, action) => {
   // Reducers usually look at the type of action that happened
   // to decide how to update the state
@@ -21,7 +42,7 @@ const playersReducer = (state = initialState, action) => {
         ...state,
         players: state.players.filter((player, index) => index !== action.payload)
       };
-    case 'SCORE_CHANGED':
+    case 'UPDATE_SCORE':
       return {
         ...state,
         players: state.players.map(

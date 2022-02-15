@@ -1,13 +1,12 @@
 import { connect } from "react-redux";
 
+import { addPlayer } from "app/store";
 import AddPlayerForm from "components/AddPlayerForm";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAddPlayer: (name) => {
-      dispatch({type: "ADD_PLAYER", payload: {name: name, score: 0}});
-    }
+    onAddPlayer: (name) => { dispatch(addPlayer(name)) }
   }
-}
+};
 
-export default connect(null, mapDispatchToProps)(AddPlayerForm)
+export default connect(null, mapDispatchToProps)(AddPlayerForm);
