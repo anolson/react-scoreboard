@@ -15,8 +15,8 @@ function PlayerList(props) {
   const renderPlayer = (player, index) => {
     return (
       <Player
-        onScoreChange={ (delta) => { this.props.onScoreChange(index, delta) } }
-        onRemove={ () => { this.props.onRemovePlayer(index) } }
+        onScoreChange={ (delta) => { props.onScoreChange(index, delta) } }
+        onRemove={ () => { props.onRemovePlayer(index) } }
         name={player.name}
         score={player.score}
         key={index} />
