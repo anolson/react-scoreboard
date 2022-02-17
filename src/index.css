@@ -139,6 +139,7 @@ button:focus {
     color: #FAFAFA;
     display: block;
     padding: 20px 20px;
+    margin: 0;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;

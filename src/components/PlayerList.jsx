@@ -3,36 +3,37 @@ import PropTypes from 'prop-types';
 
 import Player from 'components/Player';
 
-class PlayerList extends React.Component {
-  render() {
-    var emptyState = <p className="no-players">There aren't any players. Get started by adding one.</p>;
-    var totalPlayers = this.props.players.length;
-
+function PlayerList(props) {
+  const renderPlayers = () => {
     return (
-      <div className="players">
-        { totalPlayers > 0 ? this.renderPlayers() : emptyState }
-      </div>
+      props.players.map((player, index) => {
+        return renderPlayer(player, index)
+      })
     );
   }
 
-  renderPlayers() {
-    return (
-      this.props.players.map(function(player, index) {
-        return this.renderPlayer(player, index);
-      }.bind(this))
-    );
-  }
-
-  renderPlayer(player, index) {
+  const renderPlayer = (player, index) => {
     return (
       <Player
-        onScoreChange={ function(delta) { this.props.onScoreChange(index, delta) }.bind(this) }
-        onRemove={ function() { this.props.onRemovePlayer(index) }.bind(this) }
+        onScoreChange={ (delta) => { props.onScoreChange(index, delta) } }
+        onRemove={ () => { props.onRemovePlayer(index) } }
         name={player.name}
         score={player.score}
         key={index} />
     );
   }
+
+  const renderEmptyState = () => {
+    return (
+      <p className="no-players">There aren't any players. Get started by adding one.</p>
+    )
+  }
+
+  return (
+    <div className="players">
+      { props.players.length > 0 ? renderPlayers() : renderEmptyState() }
+    </div>
+  );
 }
 
 PlayerList.propTypes = {

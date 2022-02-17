@@ -1,16 +1,13 @@
 import { connect } from "react-redux";
 
+import { removePlayer, updateScore } from "app/store";
 import PlayerList from "components/PlayerList";
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onRemovePlayer: (index) => {
-      dispatch({type: "REMOVE_PLAYER", payload: index});
-    },
-    onScoreChange: (index, delta) => {
-      dispatch({type: "SCORE_CHANGED", payload: {index: index, delta: delta}});
-    }
+    onRemovePlayer: (index) => { dispatch(removePlayer(index)) },
+    onScoreChange: (index, delta) => { dispatch(updateScore(index, delta)) }
   }
-}
+};
 
-export default connect(null, mapDispatchToProps)(PlayerList)
+export default connect(null, mapDispatchToProps)(PlayerList);

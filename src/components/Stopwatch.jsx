@@ -1,66 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-class Stopwatch extends React.Component {
-  constructor(props) {
-    super(props)
+function Stopwatch(props) {
+  const [running, setRunning] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
+  let interval = null;
 
-    this.state = {
-      running: false,
-      elapsedTime: 0,
-      startTime: 0
+  useEffect(() => {
+    interval = setInterval(() => onTick(), 100);
+
+    return () => {
+      clearInterval(interval);
     };
-  }
+  });
 
-  componentDidMount() {
-    this.interval = setInterval(() => this.onTick(), 100);
-  }
+  const onStart = () => {
+    setRunning(true);
+    setStartTime(Date.now());
+  };
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+  const onStop = () => {
+    setRunning(false);
+  };
 
-  onStart() {
-    this.setState({
-      running: true,
-      startTime: Date.now()
-    });
-  }
+  const onReset = () => {
+    setElapsedTime(0);
+    setStartTime(Date.now());
+  };
 
-  onStop() {
-    this.setState({ running: false });
-  }
-
-  onReset() {
-    this.setState({
-      elapsedTime: 0,
-      startTime: Date.now()
-    });
-  }
-
-  onTick() {
-    if(this.state.running) {
-      var now = Date.now();
-      this.setState({
-        elapsedTime: now - this.state.startTime
-      });
+  const onTick = () => {
+    if(running) {
+      setElapsedTime(Date.now() - startTime);
     }
-  }
+  };
 
-  render() {
-    var stopButton = <button onClick={() => this.onStop()}>Stop</button>
-    var startButton = <button onClick={() => this.onStart()}>Start</button>
-    var seconds = Math.floor(this.state.elapsedTime / 1000);
+  const stopButton = <button onClick={() => onStop()}>Stop</button>;
+  const startButton = <button onClick={() => onStart()}>Start</button>;
+  const seconds = Math.floor(elapsedTime / 1000);
 
-    return(
-      <div className="stopwatch">
-        <h2>Stopwatch</h2>
-        <div className="stopwatch-time">{seconds}</div>
-        {this.state.running ?  stopButton : startButton }
-        <button onClick={() => this.onReset()}>Reset</button>
-      </div>
-    );
-  }
+  return(
+    <div className="stopwatch">
+      <h2>Stopwatch</h2>
+      <div className="stopwatch-time">{seconds}</div>
+      {running ?  stopButton : startButton }
+      <button onClick={() => onReset()}>Reset</button>
+    </div>
+  );
 }
 
 export default Stopwatch;
