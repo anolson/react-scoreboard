@@ -8,6 +8,7 @@ import PlayerList from "containers/PlayerListContainer";
 
 function App(props) {
   const players = useSelector((state) => state.players)
+  const { title } = props
 
   return (
     <div className="scoreboard">
