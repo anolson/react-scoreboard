@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.jsx',
@@ -7,6 +8,11 @@ module.exports = {
     path: __dirname + "/build",
     filename: 'app.bundle.js'
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Scoreboard',
+    })
+  ],
   module: {
     rules: [
       {
@@ -19,10 +25,6 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ]
-  },
-  devServer: {
-    publicPath: "/assets/",
-    contentBase: "./public"
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
