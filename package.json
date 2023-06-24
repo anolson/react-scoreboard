@@ -21,7 +21,7 @@
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^9.1.2",
     "css-loader": "^6.6.0",
     "react-hot-loader": "^4.12.18",
     "style-loader": "^3.3.1",
